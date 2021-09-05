@@ -11,7 +11,7 @@ day in question in the format "yyyy-mm-dd". The directories
 will be created in the same folder as the program is executing from.
 
 The tow dates passed as parameters have to be formatted in 
-the same way as the created directories names (yyyy-mm-dd).
+the same way as the created directories names "yyyy-mm-dd".
 An error will be raised if the date format is incorrect.
 The second date should be greater than the first one. An error 
 will be thrown otherwise.
@@ -24,17 +24,22 @@ import datetime
 
 
 def how_to_use():
-    print(f"""
-    \rprog_name date1 [date2]
- 
-    \rdate1 \t\t First date argument
-    \rdate2 \t\t Second date argument
+    print(f"""HOW TO USE
+
+    \rprog_name [-h]  date1 [date2]
+
+
+    -h    \t\t Print this text
+
+    date1 \t\t First date argument
+    date2 \t\t Second date argument
 
     \rThe first date argument represents the starting date and 
     \rthe second one if provided, the end date.
     \rIf only one argument is provided, this one will be 
     \rconsidered as the second date parameter and the first 
     \rand the current runtime date as the first parameter.
+
 
     \rProgram documentation :
     {__doc__}
@@ -72,19 +77,24 @@ def generate_folder(d1: datetime.date, d2: datetime.date):
     create_folder(date_to_string(date))
 
 
-args = sys.argv
+if __name__ == "__main__":
+    args = sys.argv
 
-if len(args) == 2:
-    date1 = datetime.date.today()
-    date2 = date_from_string(args[1])
-    generate_folder(date1, date2)
+    if args.index("-h") != -1:
+        how_to_use()
+        sys.exit(0)
 
-elif len(args) == 3:
-    date1 = date_from_string(args[1])
-    date2 = date_from_string(args[2])
-    generate_folder(date1, date2)
+    if len(args) == 2:
+        date1 = datetime.date.today()
+        date2 = date_from_string(args[1])
+        generate_folder(date1, date2)
 
-else:
-    print("Invalid syntax")
-    how_to_use()
-    raise SyntaxError()
+    elif len(args) == 3:
+        date1 = date_from_string(args[1])
+        date2 = date_from_string(args[2])
+        generate_folder(date1, date2)
+
+    else:
+        print("Invalid syntax")
+        how_to_use()
+        raise SyntaxError()
